@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+  <meta name="theme-color" content="#06b6d4" />
+  <meta name="color-scheme" content="light dark" />
+  <meta name="description" content="StudyMate - Application de révision pour étudiants avec quiz, flashcards, tableau de bord et suivi de progression" />
+  
+  <title>StudyMate - Quiz & Flashcards pour étudiants</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- PDF.js pour extraction de texte -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <script>
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+  </script>
+
+  <link rel="stylesheet" href="assets/styles.css" />
+
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="StudyMate" />
+  
+  <link rel="apple-touch-icon" href="assets/icons/icon-192.png" />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='96' height='96' viewBox='0 0 24 24'%3E%3Cpath fill='%2306b6d4' d='M10.5 2a1 1 0 0 1 1-1h.99a1 1 0 0 1 1 1v2.02h2.01a1 1 0 0 1 1 1v.99a1 1 0 0 1-1 1H13.49v2.02a1 1 0 0 1-1 1h-.99a1 1 0 0 1-1-1V7.01H7.49a1 1 0 0 1 1-1h3.01zM6 11c-2.21 0-4 1.79-4 4v3c0 1.66 1.34 3 3 3h14a3 3 0 0 0 3-3v-3c0-2.21-1.79-4-4-4z'/%3E%3C/svg%3E" />
+
+  <link rel="manifest" href="manifest.webmanifest" />
+</head>
+<body>
+  <noscript>
+    <div style="padding: 20px; text-align: center; background: #fef2f2; color: #991b1b;">
+      ⚠️ Veuillez activer JavaScript pour utiliser l'application.
+    </div>
+  </noscript>
+
+  <header class="app-header" role="banner">
+    <h1 id="app-title">🎓 StudyMate</h1>
+    <button id="burger-menu" class="burger-menu" aria-label="Menu" aria-expanded="false">
+      <span class="burger-line"></span>
+      <span class="burger-line"></span>
+      <span class="burger-line"></span>
+    </button>
+    <nav aria-label="Navigation principale">
+      <button id="btn-home" class="btn ghost" aria-label="Retour aux thèmes" title="Thèmes">
+        🏠 Accueil
+      </button>
+      <button id="btn-dashboard" class="btn ghost" aria-label="Tableau de bord" title="Tableau de bord">
+        📊 Dashboard
+      </button>
+      <button id="btn-history" class="btn ghost" aria-label="Voir l'historique" title="Historique">
+        📚 Historique
+      </button>
+      <button id="btn-manage-themes" class="btn ghost" aria-label="Gérer mes thèmes">
+        📚 Mes Thèmes
+      </button>
+      <button id="btn-about" class="btn ghost" aria-label="À propos de StudyMate">
+        ℹ️ À propos
+      </button>
+      <button id="btn-theme" class="btn ghost" aria-label="Changer le thème" title="Thème">
+        🌙
+      </button>
+    </nav>
+  </header>
+
+  <main id="app" role="main">
+    <!-- Les vues sont maintenant des Web Components -->
+    <view-themes id="view-themes"></view-themes>
+    <view-dashboard id="view-dashboard" hidden></view-dashboard>
+    <view-quiz id="view-quiz" hidden></view-quiz>
+    <view-results id="view-results" hidden></view-results>
+    <view-flashcards id="view-flashcards" hidden></view-flashcards>
+    <view-revision id="view-revision" hidden></view-revision>
+    <view-history id="view-history" hidden></view-history>
+    <view-import-theme id="view-import-theme" hidden></view-import-theme>
+    <view-custom-themes id="view-custom-themes" hidden></view-custom-themes>
+    <view-pdf-import id="view-pdf-import" hidden></view-pdf-import>
+    <view-about id="view-about" hidden></view-about>
+    <view-onboarding id="view-onboarding" hidden></view-onboarding>
+  </main>
+
+  <footer class="app-footer" role="contentinfo">
+    <small>
+      <span style="opacity: 0.7;">🔒 Données stockées localement</span>
+      <span style="margin: 0 8px; opacity: 0.5;">•</span>
+      <span style="opacity: 0.7;">⚡ Fonctionne hors-ligne</span>
+    </small>
+    <div id="network-status" class="network-status">
+      <span class="status-dot"></span>
+      <span class="status-text">En ligne</span>
+    </div>
+  </footer>
+    
+  <!-- Web Components - chargés en eager pour offline-first -->
+  <script src="js/features-view/view-onboarding.js"></script>
+  <script src="js/features-view/view-themes.js"></script>
+  <script src="js/features-view/view-dashboard.js"></script>
+  <script src="js/features-view/view-quiz.js"></script>
+  <script src="js/features-view/view-results.js"></script>
+  <script src="js/features-view/view-flashcards.js"></script>
+  <script src="js/features-view/view-revision.js"></script>
+  <script src="js/features-view/view-history.js"></script>
+  <script src="js/features-view/view-import-theme.js"></script>
+  <script src="js/features-view/view-custom-themes.js"></script>
+  <script src="js/features-view/view-pdf-import.js"></script>
+  <script src="js/features-view/view-about.js"></script>
+
+  <!-- App principal et features -->
+  <script src="assets/libjs/mermaid.min.js"></script>  <!-- lib diagram - chargé avant app.js -->
+  <script>
+    // Initialiser Mermaid après son chargement
+    if (typeof mermaid !== 'undefined') {
+      mermaid.initialize({ 
+        startOnLoad: false,
+        theme: 'neutral' 
+      });
+    }
+  </script>
+  <script src="js/app.js"></script>
+  <script src="js/features/features-quiz.js"></script>
+  <script src="js/features/features-flashcards.js"></script>
+  <script src="js/features/features-fichederevision.js"></script>
+  <script src="js/features/features-dashboard.js"></script>
+  <script src="js/features/features-export.js"></script>
+  <script src="js/features/features-theme-validator.js"></script>
+  <script src="js/features/features-custom-themes.js"></script>
+  <script src="js/features/features-theme-import.js"></script>
+  <script src="js/features/features-pdf-import.js"></script>
+  <script src="js/features/features-pdf-generator.js"></script>
+  
+  <!-- Service Worker -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('sw.js')
+          .then(registration => {
+            console.log('✅ Service Worker enregistré:', registration.scope);
+            registration.addEventListener('updatefound', () => {
+              const newWorker = registration.installing;
+              newWorker.addEventListener('statechange', () => {
+                if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                  console.log('🔄 Nouvelle version disponible ! Rechargez la page.');
+                }
+              });
+            });
+          })
+          .catch(error => {
+            console.error('❌ Erreur enregistrement SW:', error);
+          });
+      });
+    }
+  </script>
+  
+  <!-- Statut réseau -->
+  <script>
+    window.addEventListener('load', () => {
+      const updateOnlineStatus = () => {
+        const footer = document.querySelector('.app-footer small');
+        if (!footer) return;
+        
+        if (!navigator.onLine) {
+          footer.innerHTML = '<span style="color: var(--warning);">📡 Mode hors-ligne</span>';
+        } else {
+          footer.innerHTML = `
+            <span style="opacity: 0.7;">🔒 Données stockées localement</span>
+            <span style="margin: 0 8px; opacity: 0.5;">•</span>
+            <span style="opacity: 0.7;">⚡ Fonctionne hors-ligne</span>
+          `;
+        }
+      };
+      
+      window.addEventListener('online', updateOnlineStatus);
+      window.addEventListener('offline', updateOnlineStatus);
+      updateOnlineStatus();
+    });
+  </script>
+  
+  <!-- Burger menu -->
+  <script>
+    (function() {
+      const burgerMenu = document.getElementById('burger-menu');
+      const nav = document.querySelector('.app-header nav');
+      
+      if (!burgerMenu || !nav) return;
+      
+      burgerMenu.addEventListener('click', () => {
+        const isOpen = nav.classList.toggle('mobile-open');
+        burgerMenu.classList.toggle('open');
+        burgerMenu.setAttribute('aria-expanded', isOpen);
+        document.body.style.overflow = isOpen ? 'hidden' : '';
+      });
+      
+      nav.querySelectorAll('.btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          nav.classList.remove('mobile-open');
+          burgerMenu.classList.remove('open');
+          burgerMenu.setAttribute('aria-expanded', 'false');
+          document.body.style.overflow = '';
+        });
+      });
+      
+      document.addEventListener('click', (e) => {
+        if (!burgerMenu.contains(e.target) && !nav.contains(e.target) && nav.classList.contains('mobile-open')) {
+          nav.classList.remove('mobile-open');
+          burgerMenu.classList.remove('open');
+          burgerMenu.setAttribute('aria-expanded', 'false');
+          document.body.style.overflow = '';
+        }
+      });
+    })();
+  </script>
+
+
+  
+</body>
+</html>

@@ -1,0 +1,30 @@
+{
+  "version": 1,
+  "app": {
+    "title": "StudyMate",
+    "defaultLocale": "fr-FR",
+    "modes": {
+      "enabled": ["practice", "mcq_only", "exam", "error_review"],
+      "default": "practice"
+    },
+    "examDefaults": {
+      "questionCount": 20,
+      "timeLimitSec": 1500,
+      "passingPercent": 80
+    },
+    "errorReview": {
+      "maxPerSession": 15,
+      "decayOnCorrect": 1
+    }
+  },
+  "themes": [
+    {
+      "id": "psychologie-intro",
+      "title": "DEMO - psychologie-introduction",
+      "file": "themes/psychologie-introduction.json",
+      "tags": ["S1", "psychologie", "introduction"],
+      "locale": "fr-FR"
+    }
+    
+  ]
+}
