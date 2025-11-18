@@ -1,6 +1,6 @@
 # 🧠 StudyMate
 
-**StudyMate** est une PWA d'entraînement médical, conçue pour les étudiants. L'objectif : apprendre, réviser et s'auto-évaluer à travers des quiz thématiques courts, visuels et accessibles, **même hors ligne**.
+**StudyMate** est une PWA d'entraînement conçue pour les étudiants. L'objectif : apprendre, réviser et s'auto-évaluer à travers des quiz thématiques courts, visuels et accessibles, **même hors ligne**.
 🌐 [StudyMate](http://study-mate.mehdydriouech.fr/)
 ---
 
